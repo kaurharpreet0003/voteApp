@@ -1,0 +1,98 @@
+import UIKit
+
+enum FastFoodMenu {
+    case hamburger
+    case drink
+    case cookie
+    case fries
+}
+
+let sampleOrder : FastFoodMenu = FastFoodMenu.hamburger
+
+switch sampleOrder {
+case .hamburger:
+    print("your oredr is hamburger")
+default:
+    print("your order is not hamburger")
+}
+
+enum FastFoodMenuItem {
+    case hamburger(numberOfPatties: Int)
+    case drink(String, size: Int)
+    case cookie
+    case fries(size: FriesSize)
+}
+
+enum FriesSize {
+    case large
+    case small
+}
+
+let order1 = FastFoodMenuItem.hamburger(numberOfPatties: 2)
+let order2 = FastFoodMenuItem.drink("Coke", size: 32)
+
+switch order2 {
+case .hamburger:
+    print("Your order is hamburger")
+case .drink :
+    print("your order is drink")
+default:
+    break
+}
+
+switch order2 {
+case .hamburger(let numberOfPatties):
+    print("Your order is \(numberOfPatties)-patty hamburger")
+case .drink(let brandName, let size):
+    print("You ordered \(brandName) drink with the size \(size) ounces")
+default:
+    break
+}
+
+
+enum FastFoodMenuItemSpecial {
+    case hamburger(numberOfPatties: Int)
+    case drink(String, size: Int)
+    case cookie
+    case fries(size: FriesSize)
+    
+    func isIncludedInSpecialOrder(number: Int) -> Bool {
+        switch self {
+        case .hamburger(let numberOfPatties): return numberOfPatties == number
+        case .drink(_, let size) : return size == 16
+        case .cookie : return true
+        case .fries(let size) : return size == FriesSize.large
+        }
+    }
+}
+
+let order3 = FastFoodMenuItemSpecial.hamburger(numberOfPatties: 3)
+let order4 = FastFoodMenuItemSpecial.drink("Coke", size: 16)
+order3.isIncludedInSpecialOrder(number: 3)
+order4.isIncludedInSpecialOrder(number: 10)
+
+enum FastFoodMenuItemSpecial2 {
+    case hamburger(numberOfPatties: Int)
+    case drink(String, size: Int)
+    case cookie
+    case fries(size: FriesSize)
+    
+    func isIncludedInSpecialOrder(number: Int) -> Bool {
+        switch self {
+        case .hamburger(let numberOfPatties): return numberOfPatties == number
+        case .drink(_, let size) : return size == 16
+        case .cookie : return true
+        case .fries(let size) : return size == FriesSize.large
+        }
+    }
+    
+    mutating func changeOrderToCookie() {
+        self = .cookie
+    }
+}
+
+var order5 = FastFoodMenuItemSpecial2.drink("Coke", size: 16)
+order5.self
+order5.changeOrderToCookie()
+order5
+
